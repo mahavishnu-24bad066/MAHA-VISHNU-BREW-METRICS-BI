@@ -1,0 +1,164 @@
+table Fact_Sales
+	lineageTag: 933761e6-7887-4837-8f72-3f2873ad685c
+
+	measure 'Total Sales' =
+			
+			SUM(Fact_Sales[sales_amount])
+		lineageTag: 89847f6b-4652-4b62-ab46-7de7e3354802
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Previous Month Sales' =
+			
+			CALCULATE(
+			    [Total Sales],
+			    DATEADD(Dim_Date[date], -1, MONTH)
+			)
+		lineageTag: 6baf480e-6eb7-44ed-b872-96409ef337a4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'MoM Growth %' =
+			
+			DIVIDE(
+			    [Total Sales] - [Previous Month Sales],
+			    [Previous Month Sales]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 7ecbeaea-071c-4d2d-9b82-8de8dbf38315
+
+	measure 'Running Total Sales' =
+			
+			CALCULATE(
+			    [Total Sales],
+			    FILTER(
+			        ALLSELECTED(Dim_Date[date]),
+			        Dim_Date[date] <= MAX(Dim_Date[date])
+			    )
+			)
+		lineageTag: c34bcf81-c180-4d15-aab2-c9e3af9539ef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'City Sales Rank' =
+			
+			RANKX(
+			    ALL(Dim_City[city]),
+			    [Total Sales],
+			    ,
+			    DESC,
+			    DENSE
+			)
+		formatString: 0
+		lineageTag: 8a7855a6-9b84-4c70-be6c-b6ffcdb65b90
+
+	measure 'Average Order Value' =
+			
+			DIVIDE(
+			    [Total Sales],
+			    DISTINCTCOUNT(Fact_Sales[sale_id])
+			)
+		lineageTag: 438b5294-ba41-4a41-9b98-4e56f9efcf56
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Transactions' =
+			
+			DISTINCTCOUNT(Fact_Sales[sale_id])
+		formatString: 0
+		lineageTag: 7b2ebeff-de3d-4090-adea-67f228c0a3dc
+
+	column sale_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 1388fb27-63a5-47e7-9ec2-ffd57a295eaa
+		summarizeBy: sum
+		sourceColumn: sale_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7e939436-c13b-476f-9c58-00e8b7be727d
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column city
+		dataType: string
+		lineageTag: 3c01775b-7833-4561-805f-9e38d7685b2a
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_format
+		dataType: string
+		lineageTag: 2ace90fa-7152-406c-bd90-77b47528500e
+		summarizeBy: none
+		sourceColumn: store_format
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: acca93a0-c975-4cb3-9c05-636983eb56fb
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column item
+		dataType: string
+		lineageTag: e60c7645-2a84-47d5-8678-a375aec7326d
+		summarizeBy: none
+		sourceColumn: item
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 928ec54c-60bb-4cec-a184-0b6d474ad13b
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: int64
+		formatString: 0
+		lineageTag: 4945b8d2-ec7f-4e35-b5fa-cd84f7d2385e
+		summarizeBy: sum
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+	column sales_amount
+		dataType: double
+		lineageTag: b4055da4-fe84-4699-b57f-2d2c7cf5343d
+		summarizeBy: sum
+		sourceColumn: sales_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Fact_Sales = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\HP\Downloads\brewmetrics_sales.csv"),[Delimiter=",", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"sale_id", Int64.Type}, {"date", type date}, {"city", type text}, {"store_format", type text}, {"category", type text}, {"item", type text}, {"quantity", Int64.Type}, {"unit_price", Int64.Type}, {"sales_amount", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "vishnu_Brewmetrics_bi"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "596da4b7-5558-4365-b3ad-5fa10bbd0e8e"
+  }
+}

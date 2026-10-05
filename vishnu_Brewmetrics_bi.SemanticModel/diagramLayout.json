@@ -1,0 +1,87 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 65.5999984741211,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 377.08513865557745,
+            "y": -50
+          },
+          "nodeIndex": "Dim_City",
+          "nodeLineageTag": "3baab0f4-b886-44c3-be19-08bec1b3e3f1",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 684.72712219137975,
+            "y": 203.98566363780958
+          },
+          "nodeIndex": "Dim_Date",
+          "nodeLineageTag": "0f44d3c6-53b3-4a6b-b7ed-a1c09163eaa4",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 49.999999999999986,
+            "y": 453.9713272756191
+          },
+          "nodeIndex": "Dim_Product",
+          "nodeLineageTag": "4b2b5e49-3b60-4ca5-8532-3e62211fb09e",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 450.72712219137964,
+            "y": 455.36931169256582
+          },
+          "nodeIndex": "Dim_Store",
+          "nodeLineageTag": "f85a2332-5c9a-450a-b0c9-d78806560133",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 272.22228353258527,
+            "y": 106.69650974233116
+          },
+          "nodeIndex": "Fact_Sales",
+          "nodeLineageTag": "933761e6-7887-4837-8f72-3f2873ad685c",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
